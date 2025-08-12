@@ -1,5 +1,5 @@
 import gleam/option
-import whatever/result.{WhateverErr,type WhateverErr} as libres
+import whatever/result.{type WhateverErr} as libres
 import whatever/utils
 
 pub type ToType {
@@ -15,14 +15,13 @@ pub fn from(res: Result(a, b)) -> libres.Result(a) {
 
 pub fn downcast(ty: ToType, err: WhateverErr) -> option.Option(err) {
   case ty {
-    ToType(str) -> 
+    ToType(str) ->
       case utils.to_atom_string(str, "") {
         Ok(ty) -> downcast_ffi(ty, err)
         Error(_) -> option.None
       }
   }
 }
-
 
 @external(erlang, "whatever_ffi", "downcast")
 pub fn downcast_ffi(ty: String, err: WhateverErr) -> option.Option(err)

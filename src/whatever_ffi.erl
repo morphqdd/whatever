@@ -4,7 +4,6 @@
 into(Err) -> {whatever_err, Err}.
 
 downcast(Type, Err) -> 
-  io:format("type: ~p, err: ~p~n", [Type, Err]),
   case Err of 
     {whatever_err, Atom} when is_atom(Atom) -> 
       case atom_to_binary(Atom) of

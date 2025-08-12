@@ -6,19 +6,52 @@
 ```sh
 gleam add whatever@1
 ```
+
+## Usage
+
 ```gleam
 import whatever
+import whatever/result as wres
+import gleam/string
+import gleam/io
+
+type MyError {
+    MyError
+}
+
+type AnotherError {
+    AnotherError
+}
 
 pub fn main() -> Nil {
-  // TODO: An example of the project in use
+    case maybe_fail(True) {
+        wres.Error(err) -> {
+            let err = whatever.downcast(whatever.ToType("MyError"), err)
+            io.println(string.inspect(err)) // Some(MyError)
+        }
+        _ -> Nil
+    }
+    case maybe_fail(False) {
+        wres.Error(err) -> {
+            let err = whatever.downcast(whatever.ToType("MyError"), err)
+            io.println(string.inspect(err)) // None
+        }
+        _ -> Nil
+    }
 }
-```
 
-Further documentation can be found at <https://hexdocs.pm/whatever>.
+pub fn maybe_fail(is_failure: Bool) -> wres.Result(Nil) {
+    case is_failure {
+        True -> whatever.from(fail())
+        False -> whatever.from(another_fail())
+    }
+}
 
-## Development
+fn fail() -> Result(Nil, MyError) {
+    Error(MyError)
+}
 
-```sh
-gleam run   # Run the project
-gleam test  # Run the tests
+fn another_fail() -> Result(Nil, AnotherError) {
+    Error(AnotherError)
+} 
 ```

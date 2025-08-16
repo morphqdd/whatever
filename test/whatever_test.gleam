@@ -1,7 +1,7 @@
 import gleam/option
 import gleeunit
 import whatever
-import whatever/result as wres
+import whatever/result.{type WResult}
 
 pub fn main() -> Nil {
   gleeunit.main()
@@ -17,14 +17,14 @@ type AnotherError {
 
 pub fn whatever_test() -> Nil {
   case maybe_fail(True) {
-    wres.Error(err) -> {
+    Error(err) -> {
       let err = whatever.downcast(whatever.ToType("MyError"), err)
       assert option.Some(MyError) == err
     }
     _ -> Nil
   }
   case maybe_fail(False) {
-    wres.Error(err) -> {
+    Error(err) -> {
       let err = whatever.downcast(whatever.ToType("MyError"), err)
       assert option.None == err
     }
@@ -32,7 +32,7 @@ pub fn whatever_test() -> Nil {
   }
 }
 
-pub fn maybe_fail(is_failure: Bool) -> wres.Result(Nil) {
+pub fn maybe_fail(is_failure: Bool) -> WResult(Nil) {
   case is_failure {
     True -> whatever.from(fail())
     False -> whatever.from(another_fail())

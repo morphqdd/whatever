@@ -1,15 +1,15 @@
 import gleam/option
-import whatever/result.{type WhateverErr} as libres
+import whatever/result.{type WResult, type WhateverErr}
 import whatever/utils
 
 pub type ToType {
   ToType(String)
 }
 
-pub fn from(res: Result(a, b)) -> libres.Result(a) {
+pub fn from(res: Result(a, b)) -> WResult(a) {
   case res {
-    Ok(a) -> libres.Ok(a)
-    Error(b) -> libres.Error(into(b))
+    Ok(a) -> Ok(a)
+    Error(b) -> Error(into(b))
   }
 }
 

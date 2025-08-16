@@ -1,5 +1,5 @@
 name = "whatever"
-version = "1.0.0"
+version = "1.1.0"
 description = "A generic error type and helpers for Gleam, inspired by Rust's anyhow"
 licences = ["Apache-2.0"]
 repository = { type = "github", repo = "whatever", user = "morphqdd" }
